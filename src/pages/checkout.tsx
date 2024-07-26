@@ -17,7 +17,7 @@ export default function CheckOutPage() {
   const [email, setEmail] = useState("")
   
   useEffect(() => {
-    //@ts-ignore
+
     const uniqIds = [...new Set(selectedProducts)];
     if (uniqIds.length > 0) {
     fetch(`${baseUrl}/api/products?ids=`+uniqIds.join(","))

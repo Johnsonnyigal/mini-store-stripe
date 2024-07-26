@@ -5,10 +5,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 // Caching the database connection
 let cachedDb: any = null;
 
-// Function to find all products
-export async function findAllProducts() {
-    return await Product.find().exec();
-}
 
 // API handler function
 async function handle(req: NextApiRequest, res: NextApiResponse) {
@@ -26,7 +22,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
                 const products = await Product.find({ '_id': { $in: idsArray } });
                 res.status(200).json(products);
             } else {
-                const products = await findAllProducts();
+                const products = await Product.find({});
                 res.status(200).json(products);
             }
         } else {
