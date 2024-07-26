@@ -73,7 +73,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
         });
 
         // Respond with the session URL
-        res.status(303).json({ url: session.url });
+        res.redirect(303, session.url);
     } catch (error) {
         console.error("Error in checkout handler:", error);
         res.status(500).json({ error: "Internal Server Error" });

@@ -63,10 +63,10 @@ let total = subtotal + deliveryPrice;
   return (
     <Layout>
       {!productsInfos.length && (
-        <div>no products in your shopping cart</div>
+        <div className="text-center text-green-600 font-bold">No products in your shopping cart</div>
       )
     }
-    {productsInfos.length && productsInfos.map((product: any) => (
+    {productsInfos.length > 0 && productsInfos.map((product: any) => (
       <div key={product._id} className="flex mb-5">
         <div className="bg-gray-100 p-3 rounded-xl">
           <Image 
@@ -109,6 +109,7 @@ let total = subtotal + deliveryPrice;
         placeholder="Street address, number" 
         value={address}
         onChange={(e) => setAddress(e.target.value)}
+        required
         />
         <input 
         name="city"
@@ -117,6 +118,7 @@ let total = subtotal + deliveryPrice;
         placeholder="City and postal code"
         value={city}
         onChange={(e) => setCity(e.target.value)}
+        required
         />
         <input 
         name="name"
@@ -125,6 +127,7 @@ let total = subtotal + deliveryPrice;
         placeholder="Your name" 
         value={name}
         onChange={(e) => setName(e.target.value)}
+        required
         />
         <input 
         name="email"
@@ -133,6 +136,7 @@ let total = subtotal + deliveryPrice;
         placeholder="Email address" 
         value={email}
         onChange={(e) => setEmail(e.target.value)}      
+        required
         />
       </div>
       <div className="mt-4">

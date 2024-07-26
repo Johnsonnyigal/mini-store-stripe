@@ -17,7 +17,7 @@ const Layout = ({children}: any) => {
   }, []);
   return (
     <>
-    <div className="p-5">
+    <div className="p-5 min-h-screen">
       {
         success && (
           <div className="mb-5 bg-green-400 text-white text-lg p-5 rounded-xl">
