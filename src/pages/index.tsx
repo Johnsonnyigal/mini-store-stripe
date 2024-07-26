@@ -21,7 +21,7 @@ export default function Home() {
       const productsData: IProduct[] = await data.json();
       setProducts(productsData);
     } catch (error) {
-      console.error("An error occurred when fetching data", error);
+      console.log("An error occured while fetching data", error);
     }
   };
 
