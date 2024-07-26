@@ -15,9 +15,7 @@ export default function Home() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/products`, {
-        method: "GET",
-      });
+      const response = await fetch(`${baseUrl}/api/products`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

@@ -22,7 +22,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
                 const products = await Product.find({ '_id': { $in: idsArray } });
                 res.status(200).json(products);
             } else {
-                const products = await Product.find({});
+                const products = await Product.find();
                 res.status(200).json(products);
             }
         } else {
