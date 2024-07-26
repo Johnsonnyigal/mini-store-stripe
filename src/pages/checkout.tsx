@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react"
 
 
 export default function CheckOutPage() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   //@ts-ignore
   const {selectedProducts, setSelectedProducts} = useContext(ProductsContext);
@@ -19,7 +20,7 @@ export default function CheckOutPage() {
     //@ts-ignore
     const uniqIds = [...new Set(selectedProducts)];
     if (uniqIds.length > 0) {
-    fetch("/api/products?ids="+uniqIds.join(","))
+    fetch(`${baseUrl}/api/products?ids=`+uniqIds.join(","))
     .then(response => response.json())
     .then(json => setProductsInfos(json));
     } else {
@@ -100,7 +101,7 @@ let total = subtotal + deliveryPrice;
         </div>
       </div>
     ))}
-    <form action="/api/checkout" method="POST">
+    <form action={`${baseUrl}/api/checkout`} method="POST">
       <div className="mt-4">
         <input
         name="address"

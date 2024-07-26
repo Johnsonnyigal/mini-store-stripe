@@ -7,6 +7,7 @@ import Layout from "@/components/Layout";
 export default function Home() {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [phrase, setPhrase] = useState<string>("");
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     fetchProducts();
@@ -14,7 +15,7 @@ export default function Home() {
 
   const fetchProducts = async () => {
     try {
-      const data = await fetch("/api/products", {
+      const data = await fetch(`${baseUrl}/api/products`, {
         method: "GET",
       });
       const productsData: IProduct[] = await data.json();
