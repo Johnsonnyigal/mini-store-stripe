@@ -2,22 +2,27 @@ import Product from "@/models/Product";
 import connectDB from "@/utils/connectDB";
 import { NextApiRequest, NextApiResponse } from "next";
 
+// Caching the database connection
+let cachedDb: any = null;
+
 // Function to find all products
 export async function findAllProducts() {
     return await Product.find().exec();
 }
 
 // API handler function
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
         if (req.method === "GET") {
-            await connectDB();
+            // Connect to the database
+            if (!cachedDb) {
+                cachedDb = await connectDB();
+            }
 
             const { ids } = req.query;
 
             if (ids) {
-                // @ts-ignore
-                const idsArray = ids.split(",");
+                const idsArray = (ids as string).split(",");
                 const products = await Product.find({ '_id': { $in: idsArray } });
                 res.status(200).json(products);
             } else {
@@ -32,3 +37,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
+
+// Export the handler wrapped in a database connection function
+const handler =  async (req: NextApiRequest, res: NextApiResponse) => {
+    await connectDB();
+    return handle(req, res);
+};
+
+export default handler;

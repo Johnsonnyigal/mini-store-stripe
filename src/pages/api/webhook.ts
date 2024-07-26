@@ -1,4 +1,4 @@
-import Order from "@/models/Orders";
+import Order from "@/models/Order";
 import connectDB from "@/utils/connectDB"
 import { NextApiResponse, NextApiRequest } from "next";
 const stripe = require("stripe")(process.env.STRIPE_SECRET);

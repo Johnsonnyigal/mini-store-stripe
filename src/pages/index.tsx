@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ProductItem from "@/components/ProductItem";
 import { IProduct } from "@/models/Product";
 import Layout from "@/components/Layout";
@@ -15,31 +15,35 @@ export default function Home() {
 
   const fetchProducts = async () => {
     try {
-      const data = await fetch(`${baseUrl}/api/products`, {
+      const response = await fetch(`${baseUrl}/api/products`, {
         method: "GET",
       });
-      const productsData: IProduct[] = await data.json();
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const productsData: IProduct[] = await response.json();
       setProducts(productsData);
     } catch (error) {
-      console.log("An error occured while fetching data", error);
+      console.error("An error occurred while fetching data:", error);
     }
   };
 
-  let filteredProducts: IProduct[];
-  if (phrase) {
-    filteredProducts = products.filter((p: IProduct) =>
-      p.name.toLowerCase().includes(phrase.toLowerCase())
-    );
-  } else {
-    filteredProducts = products;
-  }
-  //@ts-ignore
-  const categoryNames: string[] = [...new Set(products.map((p) => p.category))];
- 
+  // Filter products based on search phrase
+  const filteredProducts = useMemo(() => {
+    return phrase
+      ? products.filter((p: IProduct) =>
+          p.name.toLowerCase().includes(phrase.toLowerCase())
+        )
+      : products;
+  }, [phrase, products]);
+
+  // Extract unique category names
+  const categoryNames = useMemo(() => {
+    return [...new Set(products.map((p) => p.category))];
+  }, [products]);
 
   return (
     <Layout>
-
       <input
         className="bg-gray-100 w-full py-2 px-4 rounded-xl"
         type="text"
@@ -50,7 +54,7 @@ export default function Home() {
       <div>
         {categoryNames.map((categoryName) => (
           <div key={categoryName}>
-            {filteredProducts.find((p: IProduct) => p.category === categoryName) && (
+            {filteredProducts.some((p: IProduct) => p.category === categoryName) && (
               <div>
                 <h2 className="text-2xl capitalize py-5">{categoryName}</h2>
                 <div className="flex -mx-5 overflow-x-scroll snap-x scrollbar-hide">
@@ -58,7 +62,13 @@ export default function Home() {
                     .filter((p: IProduct) => p.category === categoryName)
                     .map((product: IProduct) => (
                       <div key={product._id} className="px-5 snap-start">
-                        <ProductItem _id={product._id} name={product.name} price={product.price} description={product.description} picture={product.picture}  />
+                        <ProductItem
+                          _id={product._id}
+                          name={product.name}
+                          price={product.price}
+                          description={product.description}
+                          picture={product.picture}
+                        />
                       </div>
                     ))}
                 </div>
@@ -67,7 +77,6 @@ export default function Home() {
           </div>
         ))}
       </div>
-      
-  </Layout>
+    </Layout>
   );
 }
