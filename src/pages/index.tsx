@@ -7,7 +7,7 @@ import Layout from "@/components/Layout";
 export default function Home() {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [phrase, setPhrase] = useState<string>("");
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+ 
 
   useEffect(() => {
     fetchProducts();
@@ -15,7 +15,7 @@ export default function Home() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/products`);
+      const response = await fetch(`/api/products`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
