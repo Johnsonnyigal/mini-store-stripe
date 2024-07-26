@@ -1,3 +1,6 @@
+This is a simple E-commerce with stripe checkout. Created this project as a way to learn stripe integration. It is live hosted here => https://mini-store-maskedev.vercel.app/
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
