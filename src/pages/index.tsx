@@ -3,11 +3,12 @@ import { useState, useEffect, useMemo } from "react";
 import ProductItem from "@/components/ProductItem";
 import { IProduct } from "@/models/Product";
 import Layout from "@/components/Layout";
+import Loading from "./loading";
 
 export default function Home() {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [phrase, setPhrase] = useState<string>("");
- 
+  const [isloading, setIsLoading] = useState(true)
 
   useEffect(() => {
     fetchProducts();
@@ -21,6 +22,7 @@ export default function Home() {
       }
       const productsData: IProduct[] = await response.json();
       setProducts(productsData);
+      setIsLoading(false)
     } catch (error) {
       console.error("An error occurred while fetching data:", error);
     }
@@ -41,6 +43,7 @@ export default function Home() {
   }, [products]);
 
   return (
+      isloading ? <Loading /> :
     <Layout>
       <input
         className="bg-gray-100 w-full py-2 px-4 rounded-xl"
